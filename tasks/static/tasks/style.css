@@ -1,0 +1,42 @@
+:root {
+  --bg-color: #121212;
+  --card-bg: #1e1e1e;
+  --text-color: #e0e0e0;
+  --accent-color: #bb86fc; /* Mor tonu */
+  --danger-color: #cf6679; /* Kırmızımsı */
+  --success-color: #03dac6; /* Yeşilimsi */
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.task-card {
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-left: 5px solid var(--accent-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+input,
+select,
+button {
+  background-color: #333;
+  border: 1px solid #444;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+button.delete {
+  color: var(--danger-color);
+}
+button.edit {
+  color: var(--accent-color);
+}

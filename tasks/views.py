@@ -16,6 +16,8 @@ def register(request):
         form = UserCreationForm()
     return render(request, 'tasks/register.html', {'form': form})
 
+
+
 # ANA SAYFA (LİSTELEME)
 @login_required(login_url='/admin/login/')
 def index(request):
@@ -56,3 +58,15 @@ def complete_task(request, pk):
     task.completed = not task.completed
     task.save()
     return redirect('list')
+
+@login_required(login_url='/admin/login/')
+def edit_task(request, pk):
+    task = Task.objects.get(id=pk, user=request.user)
+    if request.method == 'POST':
+        task.title = request.POST.get('title')
+        task.deadline = request.POST.get('deadline') if request.POST.get('deadline') else None
+        task.priority = request.POST.get('priority')
+        task.save()
+        return redirect('list')
+    
+    return render(request, 'tasks/edit_task.html', {'task': task})
