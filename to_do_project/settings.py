@@ -1,4 +1,5 @@
 import os
+import dj_database_url # Dosyanın en üstüne ekle
 from pathlib import Path
 
 # Proje dizini
@@ -54,12 +55,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'to_do_project.wsgi.application'
 
-# Veritabanı (SQLite kullanmaya devam ediyoruz)
+
+# Eski DATABASES kısmını silip bunu yapıştır:
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        # Render panelinden kopyaladığın URL'i buraya yapıştır
+        # Güvenlik için bunu ileride Environment Variable'a taşıyacağız
+        default='postgres://user:password@hostname:port/dbname',
+        conn_max_age=600
+    )
 }
 
 # Şifre Doğrulama
