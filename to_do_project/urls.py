@@ -1,21 +1,20 @@
 from django.contrib import admin
-from django.urls import path, include # include'u buraya ekledik
-from django.http import HttpResponse
-
-urlpatterns = [
-    path('admin/', admin.site.urls), # Admin paneli adresi
-    path('', include('tasks.urls')), # Ana sayfaya gelenleri 'tasks.urls'e gönderir
-]
+from django.urls import path, include
+from django.http import HttpResponse # BU SATIR EKSİK OLABİLİR, MUTLAKA EKLE
 from django.contrib.auth.models import User
 
-# BU SADECE BİR KEZ ÇALIŞTIRILIP SİLİNMELİDİR!
+# Admin oluşturma fonksiyonu
 def create_admin(request):
-    if not User.objects.filter(username='admin').exists():
-        User.objects.create_superuser('admin', 'admin@example.com', 'serkan123')
-        return HttpResponse("Admin oluşturuldu!")
-    return HttpResponse("Admin zaten var.")
+    try:
+        if not User.objects.filter(username='admin').exists():
+            User.objects.create_superuser('admin', 'admin@example.com', 'serkan123')
+            return HttpResponse("Admin başarıyla oluşturuldu!")
+        return HttpResponse("Admin zaten mevcut.")
+    except Exception as e:
+        return HttpResponse(f"Hata oluştu: {e}")
 
-# URL listesine ekle:
-urlpatterns += [
-    path('gizli-admin-olustur/', create_admin),
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('tasks.urls')),
+    path('gizli-admin-olustur/', create_admin), # Bu satırın sonundaki virgül önemli
 ]
