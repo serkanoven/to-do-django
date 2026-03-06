@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include # include'u buraya ekledik
+from django.http import HttpResponse
 
 urlpatterns = [
     path('admin/', admin.site.urls), # Admin paneli adresi
