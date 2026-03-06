@@ -56,12 +56,13 @@ TEMPLATES = [
 WSGI_APPLICATION = 'to_do_project.wsgi.application'
 
 
-# Eski DATABASES kısmını silip bunu yapıştır:
+
+# Veritabanı ayarı
 DATABASES = {
     'default': dj_database_url.config(
-        # Render panelinden kopyaladığın URL'i buraya yapıştır
-        # Güvenlik için bunu ileride Environment Variable'a taşıyacağız
-        default='postgres://user:password@hostname:port/dbname',
+        # Render'daki 'DATABASE_URL' isimli ortam değişkenine bakar
+        # Eğer bulamazsa (yereldeysen) SQLite kullanır
+        default=os.environ.get('DATABASE_URL', f"sqlite:///{BASE_DIR / 'db.sqlite3'}"),
         conn_max_age=600
     )
 }
