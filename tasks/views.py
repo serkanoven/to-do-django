@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required # Bu importun olduğundan emin ol
+from django.contrib.auth.decorators import login_required # BU SATIRIN OLDUĞUNDAN EMİN OL
 from .models import Task
 
-@login_required(login_url='/admin/login/') # Giriş yapmayanı admin girişine atar, hatayı önler
+@login_required(login_url='/admin/login/') # HATAYI ÇÖZEN KRİTİK SATIR
 def index(request):
     # --- YENİ GÖREV EKLEME ---
     if request.method == 'POST':
@@ -28,7 +28,6 @@ def index(request):
     if search_input:
         tasks = tasks.filter(title__icontains=search_input)
 
-    # Önce önceliğe, sonra tarihe göre sırala
     tasks = tasks.order_by('priority', '-created_at')
     
     return render(request, 'tasks/index.html', {'tasks': tasks, 'search_input': search_input})
