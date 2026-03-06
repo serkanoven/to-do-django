@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required # Bu importun olduğundan emin ol
 from .models import Task
 
-@login_required(login_url='/admin/login/') # EĞER GİRİŞ YAPILMAMIŞSA BURASI HATAYI ENGELLER
+@login_required(login_url='/admin/login/') # Giriş yapmayanı admin girişine atar, hatayı önler
 def index(request):
     # --- YENİ GÖREV EKLEME ---
     if request.method == 'POST':
@@ -22,12 +22,13 @@ def index(request):
     # --- ARAMA VE LİSTELEME ---
     search_input = request.GET.get('search-area') or ''
     
-    # Giriş yapmış kullanıcının görevlerini getir
+    # Sadece giriş yapmış kullanıcının görevlerini getir
     tasks = Task.objects.filter(user=request.user)
     
     if search_input:
         tasks = tasks.filter(title__icontains=search_input)
 
+    # Önce önceliğe, sonra tarihe göre sırala
     tasks = tasks.order_by('priority', '-created_at')
     
     return render(request, 'tasks/index.html', {'tasks': tasks, 'search_input': search_input})
